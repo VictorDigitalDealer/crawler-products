@@ -1,9 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { compareProducts } from "../../application/use-cases/compareProducts.js";
+import { compareProducts } from "../../application/use-cases/compareProducts";
 
 const prisma = new PrismaClient();
 
-export async function compareProductsByIds(productId1, productId2) {
+export async function compareProductsByIds(
+  productId1: number,
+  productId2: number,
+) {
   const product1 = await prisma.product.findUnique({
     where: { id: productId1 },
   });

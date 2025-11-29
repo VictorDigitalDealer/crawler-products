@@ -4,11 +4,15 @@ import {
   compareCategories,
   comparePrices,
 } from "../../utils/fuzzyMatching.js";
+import { ProductType } from "../../infrastructure/types.js";
 
 const prisma = new PrismaClient();
 
-export async function compareProducts(product1, product2) {
-  const nameMatch = compareNames(product1, [product2]);
+export async function compareProducts(
+  product1: ProductType,
+  product2: ProductType,
+) {
+  const nameMatch = compareNames(product1, product2);
   const categoryMatch = compareCategories(product1, product2);
   const priceMatch = comparePrices(product1.price, product2.price);
 

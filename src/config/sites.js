@@ -1,5 +1,3 @@
-// config/sites.js
-
 export const SITES = {
   eurogrow: {
     id: "eurogrow",

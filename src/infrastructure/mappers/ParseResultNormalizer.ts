@@ -9,7 +9,7 @@
  * @param {any} parseResult - El resultado del parser de categoría.
  * @returns {object} - Objeto con `products` y `pagination`.
  */
-export function normalizeParseResult(parseResult) {
+export function normalizeParseResult(parseResult: string) {
   if (Array.isArray(parseResult)) {
     return {
       products: parseResult,

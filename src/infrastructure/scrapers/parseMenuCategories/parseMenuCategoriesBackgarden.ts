@@ -1,13 +1,14 @@
 import * as cheerio from "cheerio";
+import { CategoryType } from "../../types";
 
-export function parseMenuCategoriesBackgarden(html) {
+export function parseMenuCategoriesBackgarden(html: string) {
   if (!html || typeof html !== "string") return [];
 
   const $ = cheerio.load(html);
-  const categories = [];
+  const categories: CategoryType[] = [];
   const seen = new Set();
 
-  const addCat = (name, url) => {
+  const addCat = ({ name, url }: CategoryType) => {
     if (!name || !url) return;
 
     const cleanName = name.replace(/\s+/g, " ").trim();
@@ -17,7 +18,7 @@ export function parseMenuCategoriesBackgarden(html) {
     if (seen.has(cleanUrl)) return;
 
     seen.add(cleanUrl);
-    categories.push({ nombre: cleanName, url: cleanUrl });
+    categories.push({ name: cleanName, url: cleanUrl });
   };
 
   // ===========================
@@ -25,7 +26,9 @@ export function parseMenuCategoriesBackgarden(html) {
   // ===========================
   $("a.elementor-item[href]").each((_, el) => {
     const $a = $(el);
-    addCat($a.text(), $a.attr("href"));
+    const url = $a.attr("href") ?? "";
+    const name = $a.text() ?? "";
+    addCat({ name, url });
   });
 
   // ===========================
@@ -33,7 +36,9 @@ export function parseMenuCategoriesBackgarden(html) {
   // ===========================
   $("a.elementor-sub-item[href]").each((_, el) => {
     const $a = $(el);
-    addCat($a.text(), $a.attr("href"));
+    const url = $a.attr("href") ?? "";
+    const name = $a.text() ?? "";
+    addCat({ name, url });
   });
 
   return categories;

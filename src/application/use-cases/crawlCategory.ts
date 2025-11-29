@@ -1,13 +1,21 @@
 import { normalizeParseResult } from "../../infrastructure/mappers/ParseResultNormalizer.js";
 import { getCategoryParser } from "../../infrastructure/scrapers/menuParsers.js";
+import { categoryType, siteConfigType } from "../../infrastructure/types.js";
 import { sleep } from "../../utils/sleep.js";
 
-export async function crawlCategory(
+export type crawlCategoryProps = {
+  siteId: number;
+  siteConfig: siteConfigType;
+  categoria: categoryType;
+  fetchHtml: string;
+};
+
+export async function crawlCategory({
   siteId,
   siteConfig,
   categoria,
-  { fetchHtml },
-) {
+  fetchHtml,
+}: crawlCategoryProps) {
   console.log(`\n=== [${siteId}] Categoría: ${categoria.nombre} ===`);
   console.log(`URL base: ${categoria.url}`);
 

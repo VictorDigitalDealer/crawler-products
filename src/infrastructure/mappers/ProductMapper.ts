@@ -1,5 +1,7 @@
+import { ProductType } from "../types";
+
 export class ProductMapper {
-  static toDb(p, { siteName, categoryName, categoryUrl }) {
+  static toDb(p: ProductType, { siteName, categoryName, categoryUrl }) {
     return {
       name: this.parseName(p),
       shop: siteName,
@@ -20,7 +22,7 @@ export class ProductMapper {
   }
 
   static parsePrice(p) {
-    const raw = p.price ?? p.precio ?? "";
+    const raw = p.price ?? p.price ?? "";
 
     if (typeof raw === "number") return raw;
 
