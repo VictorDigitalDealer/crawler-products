@@ -4,16 +4,16 @@
   "description": "Crawler for products",
   "main": "index.js",
   "scripts": {
-    "crawl": "node src/interface/cli/crawl.js"
+    "crawl": "node src/interface/cli/crawl.js",
+    "test:db": "node src/interface/cli/test-db.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^7.0.1",
+    "@prisma/client": "^6.16.3",
     "axios": "^1.13.2",
     "cheerio": "^1.1.2",
-    "prisma": "^7.0.1",
     "xlsx": "^0.18.5"
   },
   "type": "module",
@@ -23,6 +23,7 @@
     "globals": "^16.5.0",
     "jiti": "^2.6.1",
     "prettier": "^3.6.2",
+    "prisma": "^6.16.3",
     "typescript-eslint": "^8.47.0"
   }
 }
