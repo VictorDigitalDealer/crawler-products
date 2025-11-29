@@ -7,13 +7,34 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Product {
-  id          Int      @id @default(autoincrement())
-  name        String
-  shop        String
-  url         String   @unique
-  price       Float
-  category    String
-  categoryUrl String
-  scrapedAt   DateTime @default(now())
+model ProductComparison {
+  id                     Int      @id @default(autoincrement())
+  productGrowCortesId     Int      
+  productExternalId       Int      
+  nameMatchPercentage     Float    
+  categoryMatchPercentage Float    
+  priceMatchPercentage    Float    
+  totalMatchPercentage    Float    
+  comparisonDate          DateTime @default(now()) 
+  productGrowCortes       Product  @relation("ProductGrowCortes", fields: [productGrowCortesId], references: [id])  
+  productExternal         Product  @relation("ProductExternal", fields: [productExternalId], references: [id])  
 }
+
+model Product {
+  id            Int              @id @default(autoincrement())  
+  name          String
+  shop          String
+  url           String   @unique           
+  category      String
+  categoryUrl   String          
+  price         Float            
+  externalUrl   String?          
+  scrapedAt     DateTime         @default(now())  
+  updatedAt     DateTime         @default(now())  // Establecer un valor predeterminado
+  comparisonsAsProductGrowCortes   ProductComparison[] @relation("ProductGrowCortes")  
+  comparisonsAsProductExternal     ProductComparison[] @relation("ProductExternal")  
+}
+
+
+
+
