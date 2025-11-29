@@ -1,4 +1,3 @@
-// functions/parseCategory/parseCategory.js
 import * as cheerio from "cheerio";
 
 export function parseCategory(html, pageUrl) {
@@ -19,8 +18,8 @@ export function parseCategory(html, pageUrl) {
     if (!name || !url) return;
 
     products.push({
-      nombre: name,
-      precio: priceText,
+      name: name,
+      price: priceText,
       url,
     });
   });
@@ -32,7 +31,6 @@ export function parseCategory(html, pageUrl) {
   let totalPages = null;
   let nextPageUrl = null;
 
-  // Detectar página actual desde la URL
   if (pageUrl) {
     try {
       const u = new URL(pageUrl);
@@ -41,13 +39,11 @@ export function parseCategory(html, pageUrl) {
     } catch {}
   }
 
-  // Buscar el bloque de paginación
   const $pagination = $("nav.pagination, .pagination").first();
 
   if ($pagination.length) {
     const pageNumbers = [];
 
-    // Buscar números de páginas visibles
     $pagination.find("li").each((_, li) => {
       const txt = $(li).text().trim();
       const match = txt.match(/^\d+$/);
@@ -61,17 +57,14 @@ export function parseCategory(html, pageUrl) {
     }
   }
 
-  // Construir nextPageUrl
   if (totalPages && currentPage < totalPages && pageUrl) {
     try {
       const u = new URL(pageUrl);
 
-      // Sobreescribir el parámetro p=#
       u.searchParams.set("p", currentPage + 1);
 
       nextPageUrl = u.toString();
     } catch {
-      // fallback si URL no es válida para URL()
       if (pageUrl.includes("?")) {
         if (pageUrl.includes("p=")) {
           nextPageUrl = pageUrl.replace(/p=\d+/, `p=${currentPage + 1}`);
