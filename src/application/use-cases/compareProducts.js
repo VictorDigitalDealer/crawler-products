@@ -1,17 +1,29 @@
+import { PrismaClient } from "@prisma/client";
 import {
-  compareStrings,
+  compareNames,
   compareCategories,
   comparePrices,
 } from "../../utils/fuzzyMatching.js";
 
-export function compareProducts(product1, product2) {
-  // const nameMatch = compareNames(product1, product2);
-  const nameMatch = compareStrings(product1.name, product2.name);
+const prisma = new PrismaClient();
 
+export async function compareProducts(product1, product2) {
+  const nameMatch = compareNames(product1, [product2]);
   const categoryMatch = compareCategories(product1, product2);
   const priceMatch = comparePrices(product1.price, product2.price);
 
   const totalMatch = nameMatch * 0.4 + categoryMatch * 0.3 + priceMatch * 0.3;
+
+  await prisma.productComparison.create({
+    data: {
+      productGrowCortesId: product1.id,
+      productExternalId: product2.id,
+      nameMatchPercentage: nameMatch * 100,
+      categoryMatchPercentage: categoryMatch * 100,
+      priceMatchPercentage: priceMatch * 100,
+      totalMatchPercentage: totalMatch * 100,
+    },
+  });
 
   return {
     productGrowCortesId: product1.id,

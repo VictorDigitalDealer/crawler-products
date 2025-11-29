@@ -8,7 +8,9 @@
     "test:db": "node src/interface/cli/test-db.js",
     "list:products": "node src/interface/cli/list-products.js",
     "crawl:onepage": "node src/interface/cli/crawl-one-page.js",
-    "test:comparison": "node src/interface/cli/testComparison.js"
+    "test:comparison": "node src/interface/cli/testComparison.js",
+    "list:comparison": "node src/interface/cli/list-products-comparison.js",
+    "list:categories": "node src/interface/cli/list-categories.js"
   },
   "keywords": [],
   "author": "",
@@ -23,11 +25,13 @@
   "type": "module",
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
     "jiti": "^2.6.1",
     "prettier": "^3.6.2",
     "prisma": "^6.16.3",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.47.0"
   }
 }
