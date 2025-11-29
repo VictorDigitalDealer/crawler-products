@@ -1,6 +1,5 @@
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
 }
 
 generator client {
@@ -17,4 +16,3 @@ model Product {
   categoryUrl String
   scrapedAt   DateTime @default(now())
 }
-
