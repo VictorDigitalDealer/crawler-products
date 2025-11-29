@@ -16,7 +16,7 @@ export class ProductMapper {
   }
 
   static parseUrl(p) {
-    return p.url ?? p.enlace ?? null;
+    return p.url ?? p.enlace ?? "";
   }
 
   static parsePrice(p) {
