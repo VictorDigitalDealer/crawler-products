@@ -1,0 +1,20 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  shop        String
+  url         String   @unique
+  price       Float
+  category    String
+  categoryUrl String
+  scrapedAt   DateTime @default(now())
+}
+
