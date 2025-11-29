@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "crawl": "node src/interface/cli/crawl.js",
-    "test:db": "node src/interface/cli/test-db.js"
+    "test:db": "node src/interface/cli/test-db.js",
+    "list:products": "node src/interface/cli/list-products.js",
+    "crawl:onepage": "node src/interface/cli/crawl-one-page.js"
   },
   "keywords": [],
   "author": "",
