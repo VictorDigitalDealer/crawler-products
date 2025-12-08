@@ -16,7 +16,7 @@ export async function saveProductsToDb({
   shop,
 }: SaveProductsToDbArgs) {
   const productsForDb: ProductType[] = allProducts.map((p) =>
-    ProductMapper.toDb({ p, shop: shop.nameId, category: p.category }),
+    ProductMapper.toDb({ ...p, shop: shop.nameId }),
   );
 
   console.log(

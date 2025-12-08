@@ -1,23 +1,16 @@
-import { ProductType, ShopId } from "../types.js";
-
-type ProductMapperType = {
-  p: ProductType;
-  shop: ShopId;
-  category: string;
-};
-
+import { ProductType } from "../types.js";
 export class ProductMapper {
-  static toDb({ p, shop, category }: ProductMapperType) {
+  static toDb(p: ProductType) {
     return {
       id: 0,
       name: this.parseName(p),
-      shop: shop,
+      shop: p.shop,
       url: this.parseUrl(p),
       price: this.parsePrice(p),
-      category: category,
+      category: p.category,
       scrapedAt: new Date(),
       createdAt: new Date(),
-      imageUrl: "",
+      imageUrl: p.imageUrl,
       updatedAt: new Date(),
     };
   }

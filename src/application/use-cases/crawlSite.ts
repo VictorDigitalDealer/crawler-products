@@ -35,9 +35,6 @@ export async function crawlSite(shop: ShopType) {
     allProducts.push(...categoryProducts);
 
     if (categoryProducts.length > 0) {
-      console.log(
-        `Guardando en BD ${categoryProducts.length} productos para la categoría ${category.name}...`,
-      );
       try {
         if (categoryProducts.length > 0) {
           console.log(

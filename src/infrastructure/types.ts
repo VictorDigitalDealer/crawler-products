@@ -64,3 +64,9 @@ export type ProductComparisonToSave = {
   totalMatchPercentage: number;
   comparisonDate?: Date;
 };
+
+export type PaginationInfo = {
+  currentPage: number;
+  totalPages: number | null;
+  nextPageUrl: string | null;
+};

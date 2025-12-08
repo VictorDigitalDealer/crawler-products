@@ -1,10 +1,51 @@
 import * as cheerio from "cheerio";
 import { textToNumber, extractImageUrl } from "./utils.js";
 import {
+  PaginationInfo,
   ParseCategoryReturnType,
   ParseCategoryType,
   ProductType,
 } from "../../types.js";
+
+// 👇 Función reutilizable que extrae la paginación de WooCommerce
+function parsePagination($: cheerio.CheerioAPI): PaginationInfo {
+  const $pagination = $(
+    ".woocommerce-pagination, nav.woocommerce-pagination",
+  ).first();
+
+  let currentPage = 1;
+  let totalPages: number | null = null;
+  let nextPageUrl: string | null = null;
+
+  if ($pagination.length) {
+    const $current = $pagination.find(".page-numbers .current").first();
+    if ($current.length) {
+      const n = parseInt($current.text().trim(), 10);
+      if (!Number.isNaN(n)) currentPage = n;
+    }
+
+    const $pages = $pagination
+      .find(".page-numbers li .page-numbers")
+      .not(".next")
+      .not(".prev");
+    if ($pages.length) {
+      const lastText = $pages.last().text().trim();
+      const total = parseInt(lastText, 10);
+      if (!Number.isNaN(total)) totalPages = total;
+    }
+
+    const $next = $pagination.find(".page-numbers .next").first();
+    if ($next.length) {
+      nextPageUrl = $next.attr("href") || null;
+    }
+  }
+
+  return {
+    currentPage,
+    totalPages,
+    nextPageUrl,
+  };
+}
 
 export function parseCategoryGrowcortesdelsur({
   html,
@@ -57,43 +98,11 @@ export function parseCategoryGrowcortesdelsur({
     });
   });
 
-  const $pagination = $(
-    ".woocommerce-pagination, nav.woocommerce-pagination",
-  ).first();
-  let currentPage = 1;
-  let totalPages = null;
-  let nextPageUrl = null;
-
-  if ($pagination.length) {
-    const $current = $pagination.find(".page-numbers .current").first();
-    if ($current.length) {
-      const n = parseInt($current.text().trim(), 10);
-      if (!Number.isNaN(n)) currentPage = n;
-    }
-
-    const $pages = $pagination
-      .find(".page-numbers li .page-numbers")
-      .not(".next")
-      .not(".prev");
-    if ($pages.length) {
-      const lastText = $pages.last().text().trim();
-      const total = parseInt(lastText, 10);
-      if (!Number.isNaN(total)) totalPages = total;
-    }
-
-    const $next = $pagination.find(".page-numbers .next").first();
-    if ($next.length) {
-      nextPageUrl = $next.attr("href") || null;
-    }
-  }
+  const pagination = parsePagination($);
 
   return {
     products,
-    pagination: {
-      currentPage,
-      totalPages,
-      nextPageUrl,
-    },
+    pagination,
     pageUrl,
   };
 }

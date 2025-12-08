@@ -50,7 +50,7 @@ export async function crawlOnePage(siteId: ShopId, siteConfig: ShopType) {
   }
 
   const productsForDb = products.map((p) =>
-    ProductMapper.toDb({ p, shop: category.shopId, category: category.url }),
+    ProductMapper.toDb({ ...p, shop: category.shopId, category: category.id }),
   );
 
   console.log(

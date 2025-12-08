@@ -1,6 +1,5 @@
-import { normalizeParseResult } from "../../infrastructure/mappers/ParseResultNormalizer.js";
 import { getCategoryParser } from "../../infrastructure/scrapers/menuParsers.js";
-import { CategoryType } from "../../infrastructure/types.js";
+import { CategoryType, ProductType } from "../../infrastructure/types.js";
 import { sleep } from "../../utils/sleep.js";
 import { fetchHtml } from "../../infrastructure/http/AxiosHttpClient.js";
 import { getErrorMessage } from "../../utils/error.js";
@@ -15,7 +14,7 @@ export async function crawlCategory(category: CategoryType) {
   let page = 1;
   const maxPagesSafeGuard = 50;
 
-  const categoryProducts = [];
+  const categoryProducts: ProductType[] = [];
 
   while (pageUrl && page <= maxPagesSafeGuard) {
     console.log(`\n[${category.shopId}] ${category.name} → Página ${page}`);
@@ -25,9 +24,7 @@ export async function crawlCategory(category: CategoryType) {
       const html = await fetchHtml(pageUrl);
 
       const parseResult = parseCategory({ html, category });
-      const { products, pagination } = normalizeParseResult(
-        parseResult.products,
-      );
+      const { products, pagination } = parseResult;
 
       console.log(`Productos encontrados en esta página: ${products.length}`);
 
@@ -38,7 +35,7 @@ export async function crawlCategory(category: CategoryType) {
         });
       }
 
-      const nextPageUrl = pagination?.nextPageUrl || null;
+      const nextPageUrl = pagination?.nextPageUrl ?? null;
 
       if (!nextPageUrl || nextPageUrl === pageUrl) {
         break;
