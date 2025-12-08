@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import { textToNumber } from "./utils.js";
+import { textToNumber, extractImageUrl } from "./utils.js";
 import {
   ParseCategoryReturnType,
   ParseCategoryType,
@@ -29,12 +29,7 @@ export function parseCategoryGrowcortesdelsur({
       .text()
       .trim();
 
-    const $img = $li.find("img").first();
-    const imageUrl =
-      $img.attr("data-src") ||
-      $img.attr("data-lazy-src") ||
-      $img.attr("src") ||
-      null;
+    const imageUrl = extractImageUrl($, $li);
 
     const $priceContainer = $li.find("span.price").first();
     const $del = $priceContainer.find("del .woocommerce-Price-amount").first();

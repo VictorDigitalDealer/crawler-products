@@ -29,7 +29,7 @@ export function parseMenuCategoriesGrowcortesdelsur(
       name: nombreCategoria,
       url: urlCategoria,
       shopId: "growcortesdelsur",
-      id: "",
+      id: nombreCategoria,
     });
 
     $li.find("> ul.children > li.cat-item > a").each((__, subA) => {

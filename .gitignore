@@ -30,3 +30,5 @@ excels.zip
 *.db
 *.sqlite
 *.sqlite3
+
+dist/

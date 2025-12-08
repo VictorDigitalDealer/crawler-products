@@ -1,11 +1,20 @@
 import { PrismaClient } from "@prisma/client";
 import { ProductType, ShopId } from "../../types.js";
+import { SITES } from "../../../config/sites.js";
 
 const prisma = new PrismaClient();
 
 export async function getProductsByShop(
-  shopName: ShopId,
+  shopId: ShopId,
 ): Promise<ProductType[]> {
+  const siteConfig = SITES[shopId];
+
+  if (!siteConfig) {
+    throw new Error(`No existe configuración para la tienda '${shopId}'.`);
+  }
+
+  const shopName = siteConfig.name;
+
   try {
     const rows = await prisma.product.findMany({
       where: { shop: shopName },
