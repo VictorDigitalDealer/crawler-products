@@ -25,10 +25,9 @@ model Product {
   name          String
   shop          String
   url           String   @unique           
-  category      String
-  categoryUrl   String          
+  category      String       
   price         Float            
-  externalUrl   String?          
+  imageUrl      String?          
   scrapedAt     DateTime         @default(now())  
   updatedAt     DateTime         @default(now())  // Establecer un valor predeterminado
   comparisonsAsProductGrowCortes   ProductComparison[] @relation("ProductGrowCortes")  

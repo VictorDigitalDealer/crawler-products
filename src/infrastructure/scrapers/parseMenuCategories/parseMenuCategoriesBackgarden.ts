@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import { CategoryType } from "../../types";
 
-export function parseMenuCategoriesBackgarden(html: string) {
+export function parseMenuCategoriesBackgarden(html: string): CategoryType {
   if (!html || typeof html !== "string") return [];
 
   const $ = cheerio.load(html);

@@ -9,6 +9,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/config/sites.js"],
+  "include": ["src/**/*.ts", "src/config/sites.ts"],
   "exclude": ["node_modules"]
 }

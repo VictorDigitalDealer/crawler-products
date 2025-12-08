@@ -1,53 +1,40 @@
 import { normalizeParseResult } from "../../infrastructure/mappers/ParseResultNormalizer.js";
 import { getCategoryParser } from "../../infrastructure/scrapers/menuParsers.js";
-import { categoryType, siteConfigType } from "../../infrastructure/types.js";
+import { CategoryType } from "../../infrastructure/types.js";
 import { sleep } from "../../utils/sleep.js";
+import { fetchHtml } from "../../infrastructure/http/AxiosHttpClient.js";
+import { getErrorMessage } from "../../utils/error.js";
 
-export type crawlCategoryProps = {
-  siteId: number;
-  siteConfig: siteConfigType;
-  categoria: categoryType;
-  fetchHtml: string;
-};
+export async function crawlCategory(category: CategoryType) {
+  console.log(`\n=== [${category.shopId}] Categoría: ${category.name} ===`);
+  console.log(`URL base: ${category.url}`);
 
-export async function crawlCategory({
-  siteId,
-  siteConfig,
-  categoria,
-  fetchHtml,
-}: crawlCategoryProps) {
-  console.log(`\n=== [${siteId}] Categoría: ${categoria.nombre} ===`);
-  console.log(`URL base: ${categoria.url}`);
+  const parseCategory = getCategoryParser(category.shopId);
 
-  const parseCategory = getCategoryParser(siteId);
-
-  let pageUrl = categoria.url;
+  let pageUrl = category.url;
   let page = 1;
   const maxPagesSafeGuard = 50;
 
   const categoryProducts = [];
 
   while (pageUrl && page <= maxPagesSafeGuard) {
-    console.log(`\n[${siteId}] ${categoria.nombre} → Página ${page}`);
+    console.log(`\n[${category.shopId}] ${category.name} → Página ${page}`);
     console.log(`URL página: ${pageUrl}`);
 
     try {
       const html = await fetchHtml(pageUrl);
 
-      const parseResult = parseCategory(html, pageUrl);
-      const { products, pagination } = normalizeParseResult(parseResult);
+      const parseResult = parseCategory({ html, category });
+      const { products, pagination } = normalizeParseResult(
+        parseResult.products,
+      );
 
       console.log(`Productos encontrados en esta página: ${products.length}`);
 
-      // Agregar productos de la página a la lista de la categoría
       for (const p of products) {
         categoryProducts.push({
-          sitio: siteConfig.name,
-          sitio_id: siteId,
-          categoria: categoria.nombre,
-          categoria_url: categoria.url,
-          pagina_categoria: pageUrl,
           ...p,
+          shop: category.shopId,
         });
       }
 
@@ -60,10 +47,10 @@ export async function crawlCategory({
       pageUrl = nextPageUrl;
       page += 1;
       await sleep(1000);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(
-        `Error al procesar la categoría ${categoria.nombre} (${siteId}) en página ${page}:`,
-        err.message,
+        `Error al procesar la categoría ${category.name} (${category.shopId}) en página ${page}:`,
+        getErrorMessage(err),
       );
       break;
     }
@@ -71,7 +58,7 @@ export async function crawlCategory({
 
   if (page > maxPagesSafeGuard) {
     console.warn(
-      `[${siteId}] Se alcanzó el límite de páginas (${maxPagesSafeGuard}) para la categoría ${categoria.nombre}. Revisa la paginación.`,
+      `[${category.shopId}] Se alcanzó el límite de páginas (${maxPagesSafeGuard}) para la categoría ${category.name}. Revisa la paginación.`,
     );
   }
 

@@ -1,15 +1,9 @@
-// src/infrastructure/mappers/parseResultNormalizer.js
+import { PaginationType, ProductType } from "../types";
 
-/**
- * Normaliza el resultado del parser.
- * Si es un array, lo convierte en productos y le asigna `pagination: null`.
- * Si es un objeto, extrae `products` y `pagination`, asegurando que `products` es un array.
- * Si no es ni un array ni un objeto, devuelve un array vacío y `pagination: null`.
- *
- * @param {any} parseResult - El resultado del parser de categoría.
- * @returns {object} - Objeto con `products` y `pagination`.
- */
-export function normalizeParseResult(parseResult: string) {
+export function normalizeParseResult(parseResult: ProductType[]): {
+  products: ProductType[];
+  pagination: PaginationType | null;
+} {
   if (Array.isArray(parseResult)) {
     return {
       products: parseResult,

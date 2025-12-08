@@ -1,9 +1,35 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "*": ["src/*"]
     }
   },
-  "include": ["src/**/*.js"]
+  "include": [
+    "src/**/*.js",
+    "src/infrastructure/scrapers/parseMenuCategories/parseMenuCategoriesBackgarden.ts",
+    "src/infrastructure/scrapers/parseMenuCategories/parseMenuCategories.ts",
+    "src/infrastructure/http/AxiosHttpClient.ts",
+    "src/infrastructure/mappers/ProductMapper.ts",
+    "src/infrastructure/mappers/ParseResultNormalizer.ts",
+    "src/application/use-cases/crawlCategory.ts",
+    "src/config/sites.ts",
+    "src/application/use-cases/compareProducts.ts",
+    "src/utils/sleep.ts",
+    "src/infrastructure/fuzzyMatchers/compareProductsByIds.ts",
+    "src/utils/fuzzyMatching.ts",
+    "src/infrastructure/db/PrismaProductRepository.ts",
+    "src/infrastructure/excel/ExcelExporter.ts",
+    "src/interface/cli/crawl.ts",
+    "src/domain/repositories/ProductRepository.ts",
+    "src/application/use-cases/crawlOnePage.ts",
+    "src/infrastructure/scrapers/parseCategory/parseCategoryGrowmania.ts",
+    "src/infrastructure/scrapers/parseCategory/parseCategoryGrowcortesdelsur.ts",
+    "src/infrastructure/scrapers/parseCategory/parseCategoryGrowbarato.ts",
+    "src/infrastructure/scrapers/menuParsers.ts",
+    "src/infrastructure/scrapers/parseCategory/parseCategory.ts",
+    "src/infrastructure/scrapers/parseMenuCategories/parseMenuCategoriesGrowmania.ts",
+    "src/application/use-cases/crawlSite.ts",
+    "src/infrastructure/db/saveProductsToDb.ts"
+  ]
 }

@@ -1,43 +1,36 @@
-import { ProductType } from "../types";
+import { ProductType, ShopId } from "../types";
+
+type ProductMapperType = {
+  p: ProductType;
+  shop: ShopId;
+  category: string;
+};
 
 export class ProductMapper {
-  static toDb(p: ProductType, { siteName, categoryName, categoryUrl }) {
+  static toDb({ p, shop, category }: ProductMapperType) {
     return {
+      id: 0,
       name: this.parseName(p),
-      shop: siteName,
+      shop: shop,
       url: this.parseUrl(p),
       price: this.parsePrice(p),
-      category: categoryName,
-      categoryUrl: categoryUrl,
+      category: category,
       scrapedAt: new Date(),
+      createdAt: new Date(),
+      imageUrl: "",
+      updatedAt: new Date(),
     };
   }
 
-  static parseName(p) {
-    return p.name ?? p.nombre ?? "Sin nombre";
+  static parseName(p: ProductType) {
+    return p.name ?? "Sin nombre";
   }
 
-  static parseUrl(p) {
-    return p.url ?? p.enlace ?? "";
+  static parseUrl(p: ProductType) {
+    return p.url ?? "Sin url";
   }
 
-  static parsePrice(p) {
-    const raw = p.price ?? p.price ?? "";
-
-    if (typeof raw === "number") return raw;
-
-    if (typeof raw === "string") {
-      const clean = raw
-        .replace(/€/g, "")
-        .replace(/\s+/g, "")
-        .replace(/,/g, ".")
-        .trim();
-
-      const num = parseFloat(clean);
-
-      return isNaN(num) ? 0 : num;
-    }
-
-    return 0;
+  static parsePrice(p: ProductType) {
+    return p.price ?? 0;
   }
 }
