@@ -24,3 +24,9 @@ logs/
 
 excels.zip
 /generated/prisma
+
+/dev.db
+/prisma/dev.db
+*.db
+*.sqlite
+*.sqlite3

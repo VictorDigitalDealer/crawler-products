@@ -12,7 +12,9 @@
     "test:comparison": "pnpm run build && node dist/interface/cli/testComparison.js",
     "list:comparison": "pnpm run build && node dist/interface/cli/list-products-comparison.js",
     "list:categories": "pnpm run build && node dist/interface/cli/list-categories.js",
-    "compare:products": "pnpm run build && node dist/interface/cli/compare-products.js"
+    "compare:products": "pnpm run build && node dist/interface/cli/compare-products.js",
+    "compare:shops": "pnpm run build && node dist/interface/cli/compare-shops.js",
+    "list:top-comparisons": "pnpm run build && node dist/interface/cli/list-top-comparisons.js"
   },
   "keywords": [],
   "author": "",
