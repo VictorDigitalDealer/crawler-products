@@ -3,25 +3,10 @@ import {
   getCategoryParser,
 } from "../../infrastructure/scrapers/menuParsers.js";
 import { ProductMapper } from "../../infrastructure/mappers/ProductMapper.js";
-import { ShopId, ShopType } from "../../infrastructure/types.js";
+import { CategoryType, ShopId, ShopType } from "../../infrastructure/types.js";
 import { fetchHtml } from "../../infrastructure/http/AxiosHttpClient.js";
-import { ProductRepository } from "../../domain/repositories/ProductRepository.js";
-
-function normalizeParseResult(parseResult: string) {
-  if (Array.isArray(parseResult)) {
-    return { products: parseResult, pagination: null };
-  }
-
-  if (parseResult && typeof parseResult === "object") {
-    const { products = [], pagination = null } = parseResult;
-    return {
-      products: Array.isArray(products) ? products : [],
-      pagination,
-    };
-  }
-
-  return { products: [], pagination: null };
-}
+import { normalizeParseResult } from "../../infrastructure/mappers/ParseResultNormalizer.js";
+import { PrismaProductRepository } from "../../infrastructure/db/PrismaProductRepository.js";
 
 export async function crawlOnePage(siteId: ShopId, siteConfig: ShopType) {
   console.log("\n====================================");
@@ -34,7 +19,7 @@ export async function crawlOnePage(siteId: ShopId, siteConfig: ShopType) {
 
   // 1) Home → categorías
   const homeHtml = await fetchHtml(siteConfig.homeUrl);
-  const categorias = parseMenuCategories(homeHtml) || [];
+  const categorias = (parseMenuCategories(homeHtml) as CategoryType[]) || [];
 
   console.log(`Categorías encontradas en el menú: ${categorias.length}`);
   console.dir(categorias.slice(0, 10), { depth: null });
@@ -44,41 +29,37 @@ export async function crawlOnePage(siteId: ShopId, siteConfig: ShopType) {
     return;
   }
 
-  // Usamos SOLO la primera categoría para depurar
-  const categoria = categorias[0];
-  console.log(`\nUsando SOLO la primera categoría: ${categoria.nombre}`);
-  console.log(`URL categoría: ${categoria.url}`);
+  const category: CategoryType = categorias[0];
+  console.log(`\nUsando SOLO la primera categoría: ${category.name}`);
+  console.log(`URL categoría: ${category.url}`);
 
-  const pageUrl = categoria.url;
+  const pageUrl = category.url;
 
-  // 2) Leer SOLO la primera página de esa categoría
   const html = await fetchHtml(pageUrl);
-  const parseResult = parseCategory(html, pageUrl);
-  const { products } = normalizeParseResult(parseResult);
+  const parseResult = parseCategory({ html, category });
+  const { products } = normalizeParseResult(parseResult.products);
 
   console.log(`Productos encontrados en esta página: ${products.length}`);
   console.dir(products.slice(0, 10), { depth: null });
 
   if (products.length === 0) {
     console.log(
-      `[${siteId}] No hay productos en la primera página de ${categoria.nombre}.`,
+      `[${siteId}] No hay productos en la primera página de ${category.name}.`,
     );
     return;
   }
 
   const productsForDb = products.map((p) =>
-    ProductMapper.toDb(p, {
-      siteName: siteConfig.name,
-      categoryName: categoria.nombre,
-      categoryUrl: categoria.url,
-    }),
+    ProductMapper.toDb({ p, shop: category.shopId, category: category.url }),
   );
 
   console.log(
     `\nGuardando en BD ${productsForDb.length} productos de ${siteConfig.name}...`,
   );
 
-  const result = await ProductRepository.saveMany(productsForDb);
+  const productRepository = new PrismaProductRepository();
+
+  const result = await productRepository.saveMany(productsForDb);
 
   console.log(
     `Guardados/actualizados en BD para ${siteConfig.name}: ${result.count}`,

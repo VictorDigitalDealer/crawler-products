@@ -31,7 +31,7 @@ export function parseCategoryEurogrow({
       imageUrl: "",
       scrapedAt: new Date(),
       updatedAt: new Date(),
-      shop: "1",
+      shop: "eurogrow",
     });
   });
 

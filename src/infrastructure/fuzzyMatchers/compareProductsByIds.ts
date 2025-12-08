@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { compareProducts } from "../../application/use-cases/compareProducts";
+import { ProductType } from "../types";
 
 const prisma = new PrismaClient();
 
@@ -15,14 +16,9 @@ export async function compareProductsByIds(
     where: { id: productId2 },
   });
 
-  console.log(product1.name);
-  console.log(product2.name);
-  console.log(product1.category);
-  console.log(product2.category);
-
   if (!product1 || !product2) {
     throw new Error("Uno o ambos productos no fueron encontrados.");
   }
 
-  return compareProducts(product1, product2);
+  return compareProducts(product1 as ProductType, product2 as ProductType);
 }

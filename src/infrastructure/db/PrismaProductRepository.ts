@@ -1,9 +1,9 @@
 import { ProductRepository } from "../../domain/repositories/ProductRepository.js";
-import { ProductType } from "../types.js";
+import { ProductType, ShopId } from "../types.js";
 import { prisma } from "./PrismaClient.js";
 
 export class PrismaProductRepository extends ProductRepository {
-  async saveMany(products: ProductType[]) {
+  async saveMany(products: ProductType[]): Promise<{ count: number }> {
     if (!products || products.length === 0) {
       return { count: 0 };
     }
@@ -38,9 +38,23 @@ export class PrismaProductRepository extends ProductRepository {
     return { count };
   }
 
-  async findAll() {
-    return prisma.product.findMany({
+  async findAll(): Promise<ProductType[]> {
+    const rows = await prisma.product.findMany({
       orderBy: { id: "asc" },
     });
+
+    return rows.map(
+      (p): ProductType => ({
+        id: p.id,
+        name: p.name,
+        url: p.url,
+        price: p.price,
+        category: p.category,
+        imageUrl: p.imageUrl,
+        scrapedAt: p.scrapedAt,
+        updatedAt: p.updatedAt,
+        shop: p.shop as ShopId,
+      }),
+    );
   }
 }

@@ -1,0 +1,138 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseCategoryGrowmania = parseCategoryGrowmania;
+const cheerio = __importStar(require("cheerio"));
+function parseCategoryGrowmania({ html, category, }) {
+    const $ = cheerio.load(html);
+    const products = [];
+    const pageUrl = category.url;
+    $("article.product-miniature.js-product-miniature, li.product-miniature.js-product-miniature").each((_, el) => {
+        const $el = $(el);
+        const $link = $el.find("a.thumbnail.product-thumbnail").first() ||
+            $el.find("a.product-thumbnail").first();
+        const url = $link.attr("href") || null;
+        const name = $el
+            .find("h3.product-title, h2.product-title, .product-title a")
+            .first()
+            .text()
+            .trim() || null;
+        const $img = $el.find("img").first();
+        const imageUrl = $img.attr("data-full-size-image-url") ||
+            $img.attr("data-src") ||
+            $img.attr("src") ||
+            null;
+        let priceText = $el
+            .find(".product-price-and-shipping .price, .price")
+            .first()
+            .text();
+        priceText = priceText ? priceText.replace(/\s+/g, " ").trim() : "";
+        let price = 0;
+        const match = priceText.match(/([\d.,]+)/);
+        if (match) {
+            const normalized = match[1].replace(/\./g, "").replace(",", ".");
+            const parsed = parseFloat(normalized);
+            if (!Number.isNaN(parsed)) {
+                price = parsed;
+            }
+        }
+        if (!name && !url)
+            return;
+        products.push({
+            id: 0,
+            category: category.id,
+            shop: category.shopId,
+            scrapedAt: new Date(),
+            updatedAt: new Date(),
+            name: " ",
+            url: " ",
+            imageUrl,
+            price,
+        });
+    });
+    let currentPage = 1;
+    let totalPages = null;
+    let nextPageUrl = null;
+    const $pagination = $("nav.pagination, .pagination").first();
+    if ($pagination.length) {
+        const $currentLi = $pagination.find("li.current").first();
+        if ($currentLi.length) {
+            const currentText = $currentLi.text().trim();
+            const n = parseInt(currentText.replace(/[^\d]/g, ""), 10);
+            if (!Number.isNaN(n))
+                currentPage = n;
+        }
+        const pageNumbers = [];
+        $pagination.find("li").each((_, li) => {
+            const txt = $(li).text().trim();
+            const num = parseInt(txt.replace(/[^\d]/g, ""), 10);
+            if (!Number.isNaN(num))
+                pageNumbers.push(num);
+        });
+        if (pageNumbers.length) {
+            totalPages = Math.max(...pageNumbers);
+        }
+        const $nextLi = $currentLi.next("li");
+        if ($nextLi.length) {
+            const href = $nextLi.find("a").first().attr("href") ||
+                $nextLi.find("span[onclick]").first().attr("href");
+            if (href) {
+                nextPageUrl = href;
+            }
+            else {
+                const onclick = $nextLi.find("[onclick]").first().attr("onclick") || "";
+                const match = onclick.match(/atob\('([^']+)'/);
+                if (match && match[1]) {
+                    try {
+                        const decoded = Buffer.from(match[1], "base64").toString("utf8");
+                        nextPageUrl = decoded || null;
+                    }
+                    catch (_a) {
+                        nextPageUrl = null;
+                    }
+                }
+            }
+        }
+    }
+    return {
+        products,
+        pagination: {
+            currentPage,
+            totalPages,
+            nextPageUrl,
+        },
+        pageUrl,
+    };
+}

@@ -28,6 +28,8 @@ export function parseMenuCategoriesGrowcortesdelsur(
     categorias.push({
       name: nombreCategoria,
       url: urlCategoria,
+      shopId: "growcortesdelsur",
+      id: "",
     });
 
     $li.find("> ul.children > li.cat-item > a").each((__, subA) => {
@@ -48,6 +50,8 @@ export function parseMenuCategoriesGrowcortesdelsur(
       categorias.push({
         name: `${nombreCategoria} > ${nombreSub}`,
         url: urlSub,
+        shopId: "growcortesdelsur",
+        id: "",
       });
     });
   });

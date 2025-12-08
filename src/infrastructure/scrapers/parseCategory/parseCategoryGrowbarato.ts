@@ -44,7 +44,7 @@ export function parseCategoryGrowbarato({
       imageUrl,
       price,
       category: category.name,
-      shop: " ",
+      shop: "growbarato",
       scrapedAt: new Date(),
       updatedAt: new Date(),
     });

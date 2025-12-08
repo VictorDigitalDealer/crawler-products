@@ -15,25 +15,40 @@ export function parseMenuCategoriesGrowmania(html: string): CategoryType[] {
     if (seenUrls.has(url)) return;
 
     seenUrls.add(url);
-    categories.push({ name: cleanName, url });
+    categories.push({ name: cleanName, url, shopId: "growmania", id: "" });
   };
 
   const mainCats = $("a.cbp-column-title.nav-link.cbp-category-title");
   mainCats.each((_, el) => {
     const $a = $(el);
-    addCategory({ name: $a.text().trim(), url: $a.attr("href") as string });
+    addCategory({
+      name: $a.text().trim(),
+      url: $a.attr("href") as string,
+      shopId: "growmania",
+      id: "",
+    });
   });
 
   const subCats = $(".cbp-links.cbp-category-tree a");
   subCats.each((_, el) => {
     const $a = $(el);
-    addCategory({ name: $a.text().trim(), url: $a.attr("href") as string });
+    addCategory({
+      name: $a.text().trim(),
+      url: $a.attr("href") as string,
+      shopId: "growmania",
+      id: "",
+    });
   });
 
   const valinks = $(".cbp-links.cbp-valinks a");
   valinks.each((_, el) => {
     const $a = $(el);
-    addCategory({ name: $a.text().trim(), url: $a.attr("href") as string });
+    addCategory({
+      name: $a.text().trim(),
+      url: $a.attr("href") as string,
+      shopId: "growmania",
+      id: "",
+    });
   });
 
   return categories;

@@ -1,6 +1,8 @@
-import { getCategoriesByShop } from "../../infrastructure/db/getCategoriesByShop.js"; // Ajusta la ruta según corresponda
+import { getCategoriesByShop } from "../../infrastructure/db/getCategoriesByShop.js";
+import { ShopId } from "../../infrastructure/types.js";
+import { getErrorMessage } from "../../utils/error.js";
 
-async function listCategories(shopName) {
+async function listCategories(shopName: ShopId) {
   try {
     const categories = await getCategoriesByShop(shopName);
     if (categories.length === 0) {
@@ -12,8 +14,8 @@ async function listCategories(shopName) {
     categories.forEach((category, index) => {
       console.log(`${index + 1}. ${category}`);
     });
-  } catch (error) {
-    console.error("Error al listar las categorías:", error.message);
+  } catch (error: unknown) {
+    console.error("Error al listar las categorías:", getErrorMessage(error));
   }
 }
 
@@ -24,4 +26,4 @@ if (!shopName) {
   process.exit(1);
 }
 
-listCategories(shopName);
+listCategories(shopName as ShopId);

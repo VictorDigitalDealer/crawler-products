@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import { CategoryType } from "../../types";
 
 export function parseMenuCategoriesGrowbarato(html: string): CategoryType[] {
   if (!html || typeof html !== "string") return [];
@@ -7,7 +8,7 @@ export function parseMenuCategoriesGrowbarato(html: string): CategoryType[] {
   const categories: CategoryType[] = [];
   const seenUrls = new Set();
 
-  const addCategory = ({name, url}: CategoryType) => {
+  const addCategory = ({ name, url }: CategoryType) => {
     if (!url || !name) return;
 
     const cleanName = name.replace(/\s+/g, " ").trim();
@@ -19,23 +20,28 @@ export function parseMenuCategoriesGrowbarato(html: string): CategoryType[] {
     if (seenUrls.has(cleanUrl)) return;
 
     seenUrls.add(cleanUrl);
-    categories.push({ nombre: cleanName, url: cleanUrl });
+    categories.push({
+      name: cleanName,
+      url: cleanUrl,
+      shopId: "growbarato",
+      id: "",
+    });
   };
 
   $("#soymenu_main_ul > li.soymenu_category a.dropdown-item[href]").each(
     (_, el) => {
       const $a = $(el);
       const name = $a.text().replace(/\s+/g, " ").trim();
-      const url = $a.attr("href");
-      addCategory(name, url);
+      const url = $a.attr("href") || "";
+      addCategory({ name, url, shopId: "growbarato", id: "" });
     },
   );
 
   $("li.soymm_category a.dropdown-submenu[href]").each((_, el) => {
     const $a = $(el);
     const name = $a.text().replace(/\s+/g, " ").trim();
-    const url = $a.attr("href");
-    addCategory(name, url);
+    const url = $a.attr("href") || "";
+    addCategory({ name, url, shopId: "growbarato", id: "" });
   });
 
   $("li.soymm_category span.dropdown-submenu").each((_, el) => {
@@ -43,13 +49,13 @@ export function parseMenuCategoriesGrowbarato(html: string): CategoryType[] {
     const name = $span.text().replace(/\s+/g, " ").trim();
     const onclick = $span.attr("onclick") || "";
 
-    let url = null;
+    let url = "";
     const match = onclick.match(/window\.location\.href='([^']+)'/);
     if (match && match[1]) {
       url = match[1];
     }
 
-    addCategory(name, url);
+    addCategory({ name, url, shopId: "growbarato", id: "" });
   });
 
   return categories;

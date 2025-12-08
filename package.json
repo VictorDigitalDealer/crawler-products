@@ -4,13 +4,14 @@
   "description": "Crawler for products",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "crawl": "node src/interface/cli/crawl.js",
     "test:db": "node src/interface/cli/test-db.js",
     "list:products": "node src/interface/cli/list-products.js",
     "crawl:onepage": "node src/interface/cli/crawl-one-page.js",
     "test:comparison": "node src/interface/cli/testComparison.js",
     "list:comparison": "node src/interface/cli/list-products-comparison.js",
-    "list:categories": "node src/interface/cli/list-categories.js"
+    "list:categories": "node src/interface/cli/list-categories.ts"
   },
   "keywords": [],
   "author": "",

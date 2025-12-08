@@ -1,3 +1,11 @@
+export type ShopId =
+  | "default"
+  | "eurogrow"
+  | "growmania"
+  | "growbarato"
+  | "backgarden"
+  | "growcortesdelsur";
+
 export type ProductType = {
   id: number;
   name: string;
@@ -9,14 +17,6 @@ export type ProductType = {
   scrapedAt: Date;
   updatedAt: Date;
 };
-
-export type ShopId =
-  | "default"
-  | "eurogrow"
-  | "growmania"
-  | "growbarato"
-  | "backgarden"
-  | "growcortesdelsur";
 
 export type ArgumentType = ShopId | "all";
 

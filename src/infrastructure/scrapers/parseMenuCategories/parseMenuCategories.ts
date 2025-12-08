@@ -1,12 +1,6 @@
-// functions/parseMenuCategories.js
 import * as cheerio from "cheerio";
 import { CategoryType } from "../../types";
 
-/**
- * ============================================
- *  PARSER GENÉRICO (Eurogrow, estructuras similares)
- * ============================================
- */
 export function parseMenuCategoriesGeneric(html: string) {
   const $ = cheerio.load(html);
   const categories: CategoryType[] = [];
@@ -19,7 +13,7 @@ export function parseMenuCategoriesGeneric(html: string) {
     if (seenUrls.has(url)) return;
 
     seenUrls.add(url);
-    categories.push({ name: cleanName, url });
+    categories.push({ name: cleanName, url, shopId: "eurogrow", id: "" });
   };
 
   const $nav = $("#cbp-hrmenu");
@@ -31,7 +25,7 @@ export function parseMenuCategoriesGeneric(html: string) {
   $nav.find("a").each((_, el) => {
     const url = $(el).attr("href") || "";
     const name = $(el).text().trim();
-    addCategory({ name, url });
+    addCategory({ name, url, shopId: "eurogrow", id: "" });
   });
 
   return categories;
