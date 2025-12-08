@@ -1,4 +1,4 @@
-import { getCategoriesByShop } from "../../infrastructure/db/getCategoriesByShop.js";
+import { getCategoriesByShop } from "../../infrastructure/db/get/getCategoriesByShop.js";
 import { getErrorMessage } from "../../utils/error.js";
 async function listCategories(shopName) {
     try {

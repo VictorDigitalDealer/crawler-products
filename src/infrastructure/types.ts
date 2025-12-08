@@ -54,3 +54,13 @@ export type PaginationType = {
   totalPages: number | null;
   nextPageUrl: string | null;
 };
+
+export type ProductComparisonToSave = {
+  productGrowCortesId: number;
+  productExternalId: number;
+  nameMatchPercentage: number;
+  categoryMatchPercentage: number;
+  priceMatchPercentage: number;
+  totalMatchPercentage: number;
+  comparisonDate?: Date;
+};

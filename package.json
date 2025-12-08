@@ -11,7 +11,8 @@
     "crawl:onepage": "pnpm run build && node dist/interface/cli/crawl-one-page.js",
     "test:comparison": "pnpm run build && node dist/interface/cli/testComparison.js",
     "list:comparison": "pnpm run build && node dist/interface/cli/list-products-comparison.js",
-    "list:categories": "pnpm run build && node dist/interface/cli/list-categories.js"
+    "list:categories": "pnpm run build && node dist/interface/cli/list-categories.js",
+    "compare:products": "pnpm run build && node dist/interface/cli/compare-products.js"
   },
   "keywords": [],
   "author": "",

@@ -29,7 +29,15 @@ export function compareStrings(string1, string2) {
     return 1 - score || 0;
 }
 export function comparePrices(price1, price2) {
-    const diff = Math.abs(price1 - price2);
     const maxPrice = Math.max(price1, price2);
-    return 1 - diff / maxPrice;
+    if (maxPrice === 0) {
+        return 1;
+    }
+    const diff = Math.abs(price1 - price2);
+    const ratio = diff / maxPrice;
+    const score = 1 - ratio;
+    if (!Number.isFinite(score) || score < 0) {
+        return 0;
+    }
+    return score;
 }

@@ -1,5 +1,5 @@
 import { getMenuParser } from "../../infrastructure/scrapers/menuParsers.js";
-import { saveProductsToDb } from "../../infrastructure/db/saveProductsToDb.js";
+import { saveProductsToDb } from "../../infrastructure/db/post/saveProductsToDb.js";
 import { crawlCategory } from "./crawlCategory.js";
 import { sleep } from "../../utils/sleep.js";
 import {

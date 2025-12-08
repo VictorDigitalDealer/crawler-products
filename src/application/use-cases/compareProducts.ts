@@ -12,6 +12,8 @@ export async function compareProducts(
   product1: ProductType,
   product2: ProductType,
 ) {
+  console.log(product1.name);
+  console.log(product2.name);
   const nameMatch = compareNames(product1, product2);
   const categoryMatch = compareCategories(product1, product2);
   const priceMatch = comparePrices(product1.price, product2.price);
