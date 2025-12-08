@@ -1,5 +1,5 @@
 import Fuse from "fuse.js";
-import { ProductType } from "../infrastructure/types";
+import { ProductType } from "../infrastructure/types.js";
 
 const fuseOptions = {
   includeScore: true,

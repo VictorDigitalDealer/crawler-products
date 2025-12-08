@@ -1,7 +1,7 @@
 import * as XLSX from "xlsx";
 import fs from "fs";
 import path from "path";
-import { ProductType } from "../types";
+import { ProductType } from "../types.js";
 
 const OUTPUT_DIR = path.resolve("excels");
 

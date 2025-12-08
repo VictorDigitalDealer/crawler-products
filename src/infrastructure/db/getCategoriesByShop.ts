@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { ShopId } from "../types";
+import { ShopId } from "../types.js";
 
 const prisma = new PrismaClient();
 
 export async function getCategoriesByShop(shopName: ShopId) {
   try {
-    const categories = await prisma.product.findMany({
+    const categories: { category: string }[] = await prisma.product.findMany({
       where: { shop: shopName },
       select: {
         category: true,
@@ -13,7 +13,7 @@ export async function getCategoriesByShop(shopName: ShopId) {
       distinct: ["category"],
     });
 
-    return categories.map((product) => product.category);
+    return categories.map((category) => category.category);
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : JSON.stringify(error);

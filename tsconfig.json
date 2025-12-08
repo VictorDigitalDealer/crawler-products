@@ -1,14 +1,30 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "esModuleInterop": true,
+    "target": "ES2022",
+    "lib": ["ES2022"],
+
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "moduleDetection": "force",
+
+    "rootDir": "src",
+    "outDir": "dist",
+
+    "allowJs": false,
+
+    "types": ["node"],
+
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
+    "noEmitOnError": true
   },
-  "include": ["src/**/*.ts", "src/config/sites.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

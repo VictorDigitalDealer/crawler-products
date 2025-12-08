@@ -1,4 +1,4 @@
-import { ProductType, ShopId } from "../types";
+import { ProductType, ShopId } from "../types.js";
 
 type ProductMapperType = {
   p: ProductType;

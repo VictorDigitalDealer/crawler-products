@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import { CategoryType } from "../../types";
+import { CategoryType } from "../../types.js";
 
 export function parseMenuCategoriesGrowmania(html: string): CategoryType[] {
   if (!html || typeof html !== "string") return [];

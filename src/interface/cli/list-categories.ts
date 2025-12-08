@@ -4,7 +4,7 @@ import { getErrorMessage } from "../../utils/error.js";
 
 async function listCategories(shopName: ShopId) {
   try {
-    const categories = await getCategoriesByShop(shopName);
+    const categories: string[] = await getCategoriesByShop(shopName);
     if (categories.length === 0) {
       console.log(`No se encontraron categorías para la tienda ${shopName}.`);
       return;

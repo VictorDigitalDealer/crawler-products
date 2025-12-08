@@ -1,11 +1,10 @@
-// functions/parseCategory/parseCategoryGrowbarato.js
 import * as cheerio from "cheerio";
-import { textToNumber } from "./utils";
+import { textToNumber } from "./utils.js";
 import {
   ParseCategoryReturnType,
   ParseCategoryType,
   ProductType,
-} from "../../types";
+} from "../../types.js";
 
 export function parseCategoryGrowbarato({
   html,

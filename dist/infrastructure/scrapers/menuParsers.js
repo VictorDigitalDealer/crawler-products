@@ -1,39 +1,35 @@
-"use strict";
 // functions/menuParsers.js
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMenuParser = getMenuParser;
-exports.getCategoryParser = getCategoryParser;
 // ==== MENU PARSERS ====
-const parseMenuCategories_1 = require("./parseMenuCategories/parseMenuCategories");
-const parseMenuCategoriesGrowmania_1 = require("./parseMenuCategories/parseMenuCategoriesGrowmania");
-const parseMenuCategoriesGrowbarato_1 = require("./parseMenuCategories/parseMenuCategoriesGrowbarato");
-const parseMenuCategoriesBackgarden_1 = require("./parseMenuCategories/parseMenuCategoriesBackgarden");
-const parseMenuCategoriesGrowcortesdelsur_1 = require("./parseMenuCategories/parseMenuCategoriesGrowcortesdelsur");
+import { parseMenuCategoriesGeneric } from "./parseMenuCategories/parseMenuCategories.js";
+import { parseMenuCategoriesGrowmania } from "./parseMenuCategories/parseMenuCategoriesGrowmania.js";
+import { parseMenuCategoriesGrowbarato } from "./parseMenuCategories/parseMenuCategoriesGrowbarato.js";
+import { parseMenuCategoriesBackgarden } from "./parseMenuCategories/parseMenuCategoriesBackgarden.js";
+import { parseMenuCategoriesGrowcortesdelsur } from "./parseMenuCategories/parseMenuCategoriesGrowcortesdelsur.js";
 // ==== CATEGORY PARSERS ====
-const parseCategoryEurogrow_1 = require("./parseCategory/parseCategoryEurogrow");
-const parseCategoryGrowmania_js_1 = require("./parseCategory/parseCategoryGrowmania.js");
-const parseCategoryGrowbarato_js_1 = require("./parseCategory/parseCategoryGrowbarato.js");
-const parseCategoryBackgarden_js_1 = require("./parseCategory/parseCategoryBackgarden.js");
-const parseCategoryGrowcortesdelsur_js_1 = require("./parseCategory/parseCategoryGrowcortesdelsur.js");
+import { parseCategoryEurogrow } from "./parseCategory/parseCategoryEurogrow.js";
+import { parseCategoryGrowmania } from "./parseCategory/parseCategoryGrowmania.js";
+import { parseCategoryGrowbarato } from "./parseCategory/parseCategoryGrowbarato.js";
+import { parseCategoryBackgarden } from "./parseCategory/parseCategoryBackgarden.js";
+import { parseCategoryGrowcortesdelsur } from "./parseCategory/parseCategoryGrowcortesdelsur.js";
 const MENU_PARSERS = {
-    default: parseMenuCategories_1.parseMenuCategoriesGeneric,
-    eurogrow: parseMenuCategories_1.parseMenuCategoriesGeneric,
-    growmania: parseMenuCategoriesGrowmania_1.parseMenuCategoriesGrowmania,
-    growbarato: parseMenuCategoriesGrowbarato_1.parseMenuCategoriesGrowbarato,
-    backgarden: parseMenuCategoriesBackgarden_1.parseMenuCategoriesBackgarden,
-    growcortesdelsur: parseMenuCategoriesGrowcortesdelsur_1.parseMenuCategoriesGrowcortesdelsur,
+    default: parseMenuCategoriesGeneric,
+    eurogrow: parseMenuCategoriesGeneric,
+    growmania: parseMenuCategoriesGrowmania,
+    growbarato: parseMenuCategoriesGrowbarato,
+    backgarden: parseMenuCategoriesBackgarden,
+    growcortesdelsur: parseMenuCategoriesGrowcortesdelsur,
 };
 const CATEGORY_PARSERS = {
-    default: parseCategoryEurogrow_1.parseCategoryEurogrow,
-    eurogrow: parseCategoryEurogrow_1.parseCategoryEurogrow,
-    growmania: parseCategoryGrowmania_js_1.parseCategoryGrowmania,
-    growbarato: parseCategoryGrowbarato_js_1.parseCategoryGrowbarato,
-    backgarden: parseCategoryBackgarden_js_1.parseCategoryBackgarden,
-    growcortesdelsur: parseCategoryGrowcortesdelsur_js_1.parseCategoryGrowcortesdelsur,
+    default: parseCategoryEurogrow,
+    eurogrow: parseCategoryEurogrow,
+    growmania: parseCategoryGrowmania,
+    growbarato: parseCategoryGrowbarato,
+    backgarden: parseCategoryBackgarden,
+    growcortesdelsur: parseCategoryGrowcortesdelsur,
 };
-function getMenuParser(siteId) {
+export function getMenuParser(siteId) {
     return MENU_PARSERS[siteId] || MENU_PARSERS.default;
 }
-function getCategoryParser(siteId) {
+export function getCategoryParser(siteId) {
     return CATEGORY_PARSERS[siteId] || CATEGORY_PARSERS.default;
 }

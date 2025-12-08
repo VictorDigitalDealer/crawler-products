@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SITES = void 0;
-exports.SITES = {
+export const SITES = {
     default: {
         nameId: "eurogrow",
         name: "Eurogrow",

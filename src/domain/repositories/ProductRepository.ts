@@ -1,5 +1,5 @@
 // domain/repositories/ProductRepository.ts
-import { ProductType } from "../../infrastructure/types";
+import { ProductType } from "../../infrastructure/types.js";
 
 export type SaveManyResult = {
   count: number;

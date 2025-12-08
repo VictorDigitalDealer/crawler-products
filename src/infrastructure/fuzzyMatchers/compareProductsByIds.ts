@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { compareProducts } from "../../application/use-cases/compareProducts";
-import { ProductType } from "../types";
+import { compareProducts } from "../../application/use-cases/compareProducts.js";
+import { ProductType } from "../types.js";
 
 const prisma = new PrismaClient();
 

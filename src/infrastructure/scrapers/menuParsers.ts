@@ -1,19 +1,19 @@
 // functions/menuParsers.js
 
 // ==== MENU PARSERS ====
-import { parseMenuCategoriesGeneric } from "./parseMenuCategories/parseMenuCategories";
-import { parseMenuCategoriesGrowmania } from "./parseMenuCategories/parseMenuCategoriesGrowmania";
-import { parseMenuCategoriesGrowbarato } from "./parseMenuCategories/parseMenuCategoriesGrowbarato";
-import { parseMenuCategoriesBackgarden } from "./parseMenuCategories/parseMenuCategoriesBackgarden";
-import { parseMenuCategoriesGrowcortesdelsur } from "./parseMenuCategories/parseMenuCategoriesGrowcortesdelsur";
+import { parseMenuCategoriesGeneric } from "./parseMenuCategories/parseMenuCategories.js";
+import { parseMenuCategoriesGrowmania } from "./parseMenuCategories/parseMenuCategoriesGrowmania.js";
+import { parseMenuCategoriesGrowbarato } from "./parseMenuCategories/parseMenuCategoriesGrowbarato.js";
+import { parseMenuCategoriesBackgarden } from "./parseMenuCategories/parseMenuCategoriesBackgarden.js";
+import { parseMenuCategoriesGrowcortesdelsur } from "./parseMenuCategories/parseMenuCategoriesGrowcortesdelsur.js";
 
 // ==== CATEGORY PARSERS ====
-import { parseCategoryEurogrow } from "./parseCategory/parseCategoryEurogrow";
+import { parseCategoryEurogrow } from "./parseCategory/parseCategoryEurogrow.js";
 import { parseCategoryGrowmania } from "./parseCategory/parseCategoryGrowmania.js";
 import { parseCategoryGrowbarato } from "./parseCategory/parseCategoryGrowbarato.js";
 import { parseCategoryBackgarden } from "./parseCategory/parseCategoryBackgarden.js";
 import { parseCategoryGrowcortesdelsur } from "./parseCategory/parseCategoryGrowcortesdelsur.js";
-import { CategoryParser, ShopId } from "../types";
+import { CategoryParser, ShopId } from "../types.js";
 
 const MENU_PARSERS = {
   default: parseMenuCategoriesGeneric,

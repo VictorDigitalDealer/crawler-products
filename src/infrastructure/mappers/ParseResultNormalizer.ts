@@ -1,4 +1,4 @@
-import { PaginationType, ProductType } from "../types";
+import { PaginationType, ProductType } from "../types.js";
 
 export function normalizeParseResult(parseResult: ProductType[]): {
   products: ProductType[];

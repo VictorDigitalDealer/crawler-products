@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import { CategoryType } from "../../types";
+import { CategoryType } from "../../types.js";
 
 export function parseMenuCategoriesGeneric(html: string) {
   const $ = cheerio.load(html);

@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "crawl": "node src/interface/cli/crawl.js",
-    "test:db": "node src/interface/cli/test-db.js",
-    "list:products": "node src/interface/cli/list-products.js",
-    "crawl:onepage": "node src/interface/cli/crawl-one-page.js",
-    "test:comparison": "node src/interface/cli/testComparison.js",
-    "list:comparison": "node src/interface/cli/list-products-comparison.js",
-    "list:categories": "node src/interface/cli/list-categories.ts"
+    "crawl": "pnpm run build && node dist/interface/cli/crawl.js",
+    "test:db": "pnpm run build && node dist/interface/cli/test-db.js",
+    "list:products": "pnpm run build && node dist/interface/cli/list-products.js",
+    "crawl:onepage": "pnpm run build && node dist/interface/cli/crawl-one-page.js",
+    "test:comparison": "pnpm run build && node dist/interface/cli/testComparison.js",
+    "list:comparison": "pnpm run build && node dist/interface/cli/list-products-comparison.js",
+    "list:categories": "pnpm run build && node dist/interface/cli/list-categories.js"
   },
   "keywords": [],
   "author": "",

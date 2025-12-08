@@ -1,6 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductRepository = void 0;
-class ProductRepository {
+export class ProductRepository {
 }
-exports.ProductRepository = ProductRepository;

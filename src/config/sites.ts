@@ -1,4 +1,4 @@
-import { ShopId, ShopType } from "../infrastructure/types";
+import { ShopId, ShopType } from "../infrastructure/types.js";
 
 export const SITES: Record<ShopId, ShopType> = {
   default: {

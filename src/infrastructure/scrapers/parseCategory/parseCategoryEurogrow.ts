@@ -3,7 +3,7 @@ import {
   ParseCategoryReturnType,
   ParseCategoryType,
   ProductType,
-} from "../../types";
+} from "../../types.js";
 
 export function parseCategoryEurogrow({
   html,

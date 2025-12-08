@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductMapper = void 0;
-class ProductMapper {
+export class ProductMapper {
     static toDb({ p, shop, category }) {
         return {
             id: 0,
@@ -17,16 +14,12 @@ class ProductMapper {
         };
     }
     static parseName(p) {
-        var _a;
-        return (_a = p.name) !== null && _a !== void 0 ? _a : "Sin nombre";
+        return p.name ?? "Sin nombre";
     }
     static parseUrl(p) {
-        var _a;
-        return (_a = p.url) !== null && _a !== void 0 ? _a : "Sin url";
+        return p.url ?? "Sin url";
     }
     static parsePrice(p) {
-        var _a;
-        return (_a = p.price) !== null && _a !== void 0 ? _a : 0;
+        return p.price ?? 0;
     }
 }
-exports.ProductMapper = ProductMapper;

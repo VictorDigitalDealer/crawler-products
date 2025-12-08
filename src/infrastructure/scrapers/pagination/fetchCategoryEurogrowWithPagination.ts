@@ -1,26 +1,31 @@
-// functions/fetchCategoryEurogrowWithPagination.js
-import { fetchHtml } from "../services/services.js";
-import { getCategoryParser } from "./menuParsers.js";
+import { getErrorMessage } from "../../../utils/error.js";
+import { fetchHtml } from "../../http/AxiosHttpClient.js";
+import { CategoryType, ShopId } from "../../types.js";
+import { getCategoryParser } from "../menuParsers.js";
+
+type FetchCategoryEurogrowWithPaginationType = {
+  siteId: ShopId;
+  category: CategoryType;
+};
 
 export async function fetchCategoryEurogrowWithPagination({
   siteId,
-  siteConfig,
-  categoria,
-}) {
+  category,
+}: FetchCategoryEurogrowWithPaginationType) {
   console.log("\n🔍 [EUROGROW] Iniciando paginación especial…");
-  console.log("➡️ Categoría:", categoria.nombre);
-  console.log("➡️ URL base:", categoria.url);
+  console.log("➡️ Categoría:", category.name);
+  console.log("➡️ URL base:", category.url);
 
   const parseCategory = getCategoryParser(siteId);
   const allProducts = [];
 
   // ======== Página 1 ========
   console.log("\n📄 [EUROGROW] Página 1 (HTML normal)...");
-  const firstHtml = await fetchHtml(categoria.url);
+  const firstHtml = await fetchHtml(category.url);
 
   console.log("📏 Tamaño HTML 1:", firstHtml.length);
 
-  const firstResult = parseCategory(firstHtml, categoria.url);
+  const firstResult = parseCategory({ html: firstHtml, category });
   const firstPageProducts = Array.isArray(firstResult)
     ? firstResult
     : firstResult.products || [];
@@ -31,17 +36,16 @@ export async function fetchCategoryEurogrowWithPagination({
   // ======== Paginación Ajax ========
 
   let page = 2;
-  let hasMore = true;
+  const hasMore = true;
 
-  // Debemos tener categoria.currentId
-  console.log("\n🔧 current_id de la categoría:", categoria.currentId);
-  if (!categoria.currentId) {
+  console.log("\n🔧 current_id de la categoría:", category.id);
+  if (!category.id) {
     console.warn("⚠️ NO hay current_id — no puedo paginar Eurogrow");
     return allProducts;
   }
 
   while (hasMore) {
-    const ajaxUrl = `https://eurogrow.es/module/infinitescroll/ajax?p=${page}&current_id=${categoria.currentId}&scroll_type=category&orderby=position&orderway=asc`;
+    const ajaxUrl = `https://eurogrow.es/module/infinitescroll/ajax?p=${page}&current_id=${category.id}&scroll_type=category&orderby=position&orderway=asc`;
 
     console.log(`\n📡 [EUROGROW] Pidiendo AJAX página ${page}`);
     console.log("➡️ URL:", ajaxUrl);
@@ -50,19 +54,23 @@ export async function fetchCategoryEurogrowWithPagination({
     try {
       ajaxHtml = await fetchHtml(ajaxUrl);
     } catch (err) {
-      console.error("❌ Error descargando AJAX:", err.message);
+      console.error("❌ Error descargando AJAX:", getErrorMessage(err));
       break;
     }
 
     console.log("📏 Tamaño HTML AJAX:", ajaxHtml.length);
 
-    // Si la respuesta está vacía → final
     if (!ajaxHtml.trim()) {
       console.log("⛔ Respuesta vacía → fin de paginación");
       break;
     }
 
-    const ajaxResult = parseCategory(ajaxHtml, ajaxUrl);
+    const ajaxCategory = { ...category, url: ajaxUrl };
+
+    const ajaxResult = parseCategory({
+      html: ajaxHtml,
+      category: ajaxCategory,
+    });
     const pageProducts = Array.isArray(ajaxResult)
       ? ajaxResult
       : ajaxResult.products || [];

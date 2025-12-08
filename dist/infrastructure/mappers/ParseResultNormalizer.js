@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeParseResult = normalizeParseResult;
-function normalizeParseResult(parseResult) {
+export function normalizeParseResult(parseResult) {
     if (Array.isArray(parseResult)) {
         return {
             products: parseResult,

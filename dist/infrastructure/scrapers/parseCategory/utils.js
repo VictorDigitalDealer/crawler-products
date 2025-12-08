@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.textToNumber = textToNumber;
-function textToNumber(text) {
+export function textToNumber(text) {
     if (!text)
         return 0;
     const cleaned = text
